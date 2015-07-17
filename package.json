@@ -1,11 +1,11 @@
 {
-  "name": "es6-package-boilerplate",
-  "version": "0.0.0",
-  "description": "Module boilerplate for es6",
+  "name": "mandrill-sugared",
+  "version": "0.0.1",
+  "description": "Mandril wrapper with some sugar to make integration simpler",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/calebmorris/es6-package-boilerplate"
+    "url": "https://github.com/colonyamerican/mandrill-sugared"
   },
   "scripts": {
     "clean": "rm -Rf ./dist ./coverage",
@@ -16,14 +16,17 @@
     "lint-quiet": "./node_modules/.bin/eslint --ext .js --quiet .",
     "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive --compilers js:babel/register"
   },
-  "author": {
-    "name": "Caleb Morris",
-    "email": "caleb.morris.g@gmail.com"
-  },
+  "authors": [
+    {
+      "name": "Caleb Morris",
+      "email": "caleb.morris.g@gmail.com"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "bluebird": "^2.9.21",
-    "lodash": "^3.6.0"
+    "lodash": "^3.6.0",
+    "mandrill-api": "^1.0.45"
   },
   "devDependencies": {
     "babel": "^4.7.16",
