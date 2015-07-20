@@ -1,11 +1,9 @@
-# ES6 Boilerplate
+# Mandrill Sugared
 
-Boilerplate code for building, testing, running an es6 module
+A simplified Mandrill wrapper for ease of use and hooking into known locations
+ in the workflow for logging.
 
 # Example
 
-```javascript
-
-console.log('put example here')
-
-```
+- [`sendEmail`](examples/sendEmail.js)
+- [`sendEmailTemplate`](examples/sendTemplate.js)
