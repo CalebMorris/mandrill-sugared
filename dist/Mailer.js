@@ -37,13 +37,13 @@ var Mailer = (function () {
     this.mandrillClient = new Mandrill(apiKey);
     this.whitelist = options.whitelist && new EmailListComparator(options.whitelist) || null;
     this.blacklist = new EmailListComparator(options.blacklist || []);
-    this.hooks = _.chain({
+    this.hooks = _.chain(options.hooks).defaults({
       sendEmailBlocked: _.noop,
       sendEmailCompleted: _.noop,
       sendEmailFailed: _.noop,
       sendTemplateBlocked: _.noop,
       sendTemplateCompleted: _.noop,
-      sendTemplateFailed: _.noop }).defaults(options.hooks).value();
+      sendTemplateFailed: _.noop }).value();
   }
 
   _createClass(Mailer, {
