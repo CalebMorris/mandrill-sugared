@@ -33,18 +33,17 @@ var Mailer = (function () {
 
     _classCallCheck(this, Mailer);
 
-    this.mandrilClient = new Mandrill(apiKey);
+    this.apiKey = apiKey;
+    this.mandrillClient = new Mandrill(apiKey);
     this.whitelist = options.whitelist && new EmailListComparator(options.whitelist) || null;
     this.blacklist = new EmailListComparator(options.blacklist || []);
-    this.hooks = _.chain(options.hooks).defaults({
+    this.hooks = _.chain({
       sendEmailBlocked: _.noop,
       sendEmailCompleted: _.noop,
       sendEmailFailed: _.noop,
       sendTemplateBlocked: _.noop,
       sendTemplateCompleted: _.noop,
-      sendTemplateFailed: _.noop }).map(function (hook) {
-      return _.isFunction(hook) && hook || _.noop;
-    });
+      sendTemplateFailed: _.noop }).defaults(options.hooks).value();
   }
 
   _createClass(Mailer, {
@@ -70,19 +69,20 @@ var Mailer = (function () {
     areMetadataEmailsAllow: {
 
       /*
-      * @param {Object} metadata
+      * @param {Object} message
       * @returns {Boolean} List of failed emails
       */
 
-      value: function areMetadataEmailsAllow(metadata) {
+      value: function areMetadataEmailsAllow(message) {
         var areEmailsValid = true;
+        var isEmailAllowed = this.isEmailAllowed.bind(this);
 
-        areEmailsValid = _.reduce(metadata.message.to, function (memo, toItem) {
-          return memo && this.isEmailAllowed(toItem.email);
+        areEmailsValid = _.reduce(message.to, function (memo, toItem) {
+          return memo && isEmailAllowed(toItem.email);
         }, areEmailsValid);
 
-        if (metadata.bcc_address) {
-          areEmailsValid = areEmailsValid && this.isEmailAllowed(metadata.bcc_address);
+        if (message.bcc_address) {
+          areEmailsValid = areEmailsValid && isEmailAllowed(message.bcc_address);
         }
 
         return areEmailsValid;
@@ -96,19 +96,21 @@ var Mailer = (function () {
       */
 
       value: function sendEmail(metadata, done) {
-        var _this = this;
+        var self = this;
 
         return new Promise(function (resolve, reject) {
-          if (!_this.areMetadataEmailsAllow(metadata)) {
-            _this.hooks.sendEmailBlocked(metadata);
+          if (!self.areMetadataEmailsAllow(metadata)) {
+            self.hooks.sendEmailBlocked(metadata);
             return resolve();
           }
 
-          return _this.mandrillClient.messages.send({ message: metadata }, resolve, reject);
+          return self.mandrillClient.messages.send({
+            key: self.apiKey,
+            message: metadata }, resolve, reject);
         }).tap(function (x) {
-          return _this.hooks.sendEmailCompleted(metadata);
+          return self.hooks.sendEmailCompleted(metadata);
         })["catch"](function (err) {
-          _this.hooks.sendEmailFailed(metadata, err);
+          self.hooks.sendEmailFailed(metadata, err);
           throw err;
         }).nodeify(done);
       }
@@ -121,19 +123,19 @@ var Mailer = (function () {
       */
 
       value: function sendEmailTemplate(metadata, done) {
-        var _this = this;
+        var self = this;
 
         return new Promise(function (resolve, reject) {
-          if (!_this.areMetadataEmailsAllow(metadata)) {
-            _this.hooks.sendTemplateBlocked(metadata);
+          if (!self.areMetadataEmailsAllow(metadata.message)) {
+            self.hooks.sendTemplateBlocked(metadata);
             return done();
           }
 
-          _this.mandrillClient.messages.sendTemplate(metadata, resolve, reject);
+          self.mandrillClient.messages.sendTemplate(_.merge({ key: self.apiKey }, metadata), resolve, reject);
         }).tap(function (x) {
-          return _this.hooks.sendTemplateCompleted(metadata);
+          return self.hooks.sendTemplateCompleted(metadata);
         })["catch"](function (err) {
-          _this.hooks.sendTemplateFailed(metadata, err);
+          self.hooks.sendTemplateFailed(metadata, err);
           throw err;
         }).nodeify(done);
       }
