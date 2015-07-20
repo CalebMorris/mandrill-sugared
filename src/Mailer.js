@@ -23,7 +23,8 @@ class Mailer {
     this.whitelist = options.whitelist && new EmailListComparator(options.whitelist) || null;
     this.blacklist = new EmailListComparator(options.blacklist || []);
     this.hooks = _
-      .chain({
+      .chain(options.hooks)
+      .defaults({
         sendEmailBlocked : _.noop,
         sendEmailCompleted : _.noop,
         sendEmailFailed : _.noop,
@@ -31,7 +32,6 @@ class Mailer {
         sendTemplateCompleted : _.noop,
         sendTemplateFailed : _.noop,
       })
-      .defaults(options.hooks)
       .value();
   }
 
