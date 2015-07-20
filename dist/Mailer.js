@@ -24,7 +24,10 @@ var Mailer = (function () {
   *   @param {Object<String,Func>} hooks - Hooks will be of the form (data, [err])
   *     @param {Func} sendEmailBlocked
   *     @param {Func} sendEmailCompleted
+  *     @param {Func} sendEmailFailed
   *     @param {Func} sendTemplateBlocked
+  *     @param {Func} sendTemplateCompleted
+  *     @param {Func} sendTemplateFailed
   * @constructor
   */
 
