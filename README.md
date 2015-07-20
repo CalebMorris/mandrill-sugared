@@ -9,3 +9,20 @@ A simplified Mandrill wrapper for ease of use and hooking into known locations
 
 - [`sendEmail`](examples/sendEmail.js)
 - [`sendEmailTemplate`](examples/sendTemplate.js)
+
+# API
+
+## Construction
+
+### Options
+- `whitelist` Whitelisted emails requires any emails to be of one of these patterns
+  - Ex: `[ 'test@example.com', /^.*@example.com$/ ]`
+- `blacklist` Blacklisted emails - black overrides white or filters out base
+  - Ex: `[ 'badEmail@example.com', /^.*@badDomain.com$/ ]`
+- `hooks` Loggin hooks
+  - `sendEmailBlocked`
+  - `sendEmailCompleted`
+  - `sendEmailFailed`
+  - `sendTemplateBlocked`
+  - `sendTemplateCompleted`
+  - `sendTemplateFailed`
