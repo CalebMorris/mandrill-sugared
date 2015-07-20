@@ -1,6 +1,6 @@
 {
   "name": "mandrill-sugared",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Mandril wrapper with some sugar to make integration simpler",
   "main": "dist/index.js",
   "repository": {
