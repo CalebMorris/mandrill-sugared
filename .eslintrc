@@ -146,7 +146,7 @@
     "key-spacing": [ 1, { "beforeColon": true, "afterColon": true }],
     "linebreak-style": [ 2 ],
     "lines-around-comment": [ 0 ],
-    "max-nested-callbacks": [ 2, 3 ],
+    "max-nested-callbacks": [ 2, 5 ],
     "new-cap": 0,
     "new-parens": [ 2 ],
     "newline-after-var": [ 0 ],
@@ -191,7 +191,7 @@
     "prefer-const": [ 2 ],
 
     // legacy
-    "max-depth": [ 2, 2 ],
+    "max-depth": [ 2, 5 ],
     "max-len": [ 2, 100 ],
     "max-params": [ 2, 4 ],
     "max-statements": [ 2, 15 ],
