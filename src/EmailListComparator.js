@@ -36,17 +36,19 @@ class EmailListComparator {
   * @returns {Boolean}
   */
   contains(email) {
-    _.each(this.groupedEmailPatterns.string, (emailString) => {
+    for (let i = this.groupedEmailPatterns.string.length - 1; i >= 0; i--) {
+      const emailString = this.groupedEmailPatterns.string[ i ];
       if (email === emailString) {
         return true;
       }
-    });
+    }
 
-    _.each(this.groupedEmailPatterns.regex, (regex) => {
+    for (let i = this.groupedEmailPatterns.regex.length - 1; i >= 0; i--) {
+      const regex = this.groupedEmailPatterns.regex[ i ];
       if (regex.test(email)) {
         return true;
       }
-    });
+    }
 
     return false;
   }
