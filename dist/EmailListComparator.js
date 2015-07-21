@@ -11,20 +11,20 @@ var _ = _interopRequire(require("lodash"));
 var EmailListComparator = (function () {
 
   /*
-  * @param {(String|Regex)[]} emails
+  * @param {(String|Regex)[]} patterns
   * @constructor
   */
 
   function EmailListComparator() {
-    var emails = arguments[0] === undefined ? [] : arguments[0];
+    var patterns = arguments[0] === undefined ? [] : arguments[0];
 
     _classCallCheck(this, EmailListComparator);
 
-    this.groupedEmailPatterns = _.groupBy(emails, function (email) {
-      if (_.isString(email)) {
+    this.groupedEmailPatterns = _.groupBy(patterns, function (pattern) {
+      if (_.isString(pattern)) {
         return "string";
       }
-      if (_.isRegExp(email)) {
+      if (_.isRegExp(pattern)) {
         return "regex";
       }
 
@@ -50,17 +50,21 @@ var EmailListComparator = (function () {
       */
 
       value: function contains(email) {
-        for (var i = this.groupedEmailPatterns.string.length - 1; i >= 0; i--) {
-          var emailString = this.groupedEmailPatterns.string[i];
-          if (email === emailString) {
-            return true;
+        if (this.groupedEmailPatterns.string) {
+          for (var i = this.groupedEmailPatterns.string.length - 1; i >= 0; i--) {
+            var emailString = this.groupedEmailPatterns.string[i];
+            if (email === emailString) {
+              return true;
+            }
           }
         }
 
-        for (var i = this.groupedEmailPatterns.regex.length - 1; i >= 0; i--) {
-          var regex = this.groupedEmailPatterns.regex[i];
-          if (regex.test(email)) {
-            return true;
+        if (this.groupedEmailPatterns.regex) {
+          for (var i = this.groupedEmailPatterns.regex.length - 1; i >= 0; i--) {
+            var regex = this.groupedEmailPatterns.regex[i];
+            if (regex.test(email)) {
+              return true;
+            }
           }
         }
 
