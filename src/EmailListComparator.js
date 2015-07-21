@@ -3,15 +3,15 @@ import _ from 'lodash';
 class EmailListComparator {
 
   /*
-  * @param {(String|Regex)[]} emails
+  * @param {(String|Regex)[]} patterns
   * @constructor
   */
-  constructor(emails = []) {
-    this.groupedEmailPatterns = _.groupBy(emails, (email) => {
-      if (_.isString(email)) {
+  constructor(patterns = []) {
+    this.groupedEmailPatterns = _.groupBy(patterns, (pattern) => {
+      if (_.isString(pattern)) {
         return 'string';
       }
-      if (_.isRegExp(email)) {
+      if (_.isRegExp(pattern)) {
         return 'regex';
       }
 
