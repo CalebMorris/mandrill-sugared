@@ -133,7 +133,7 @@
     "no-sync": [ 2 ],
 
     // style
-    "array-bracket-spacing": [ 2, "always" ],
+    "array-bracket-spacing": [ 0, "always" ],
     "brace-style": [ 2, "1tbs" ],
     "camelcase": [ 2, { "properties" : "never" } ],
     "comma-spacing": [ 2, { "before": false, "after": true } ],
