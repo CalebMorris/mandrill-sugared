@@ -83,7 +83,7 @@ class Mailer {
     return new Promise((resolve, reject) => {
       if (! self.areMetadataEmailsAllow(metadata)) {
         self.hooks.sendEmailBlocked(metadata);
-        return resolve();
+        return done();
       }
 
       return self.mandrillClient.messages
