@@ -20,7 +20,7 @@ var EmailListComparator = (function () {
 
     _classCallCheck(this, EmailListComparator);
 
-    this.groupedEmailPatters = _.groupBy(emails, function (email) {
+    this.groupedEmailPatterns = _.groupBy(emails, function (email) {
       if (_.isString(email)) {
         return "string";
       }
@@ -31,8 +31,8 @@ var EmailListComparator = (function () {
       return "other";
     });
 
-    if (this.groupedEmailPatters.other) {
-      _.each(this.groupedEmailPatters.other, function (other) {
+    if (this.groupedEmailPatterns.other) {
+      _.each(this.groupedEmailPatterns.other, function (other) {
         /* eslint-disable no-console */
         /* Usage failure needs instruction otherwise */
         console.error("Unsupported type of email pattern for listComparator:", typeof other, other);
@@ -50,17 +50,19 @@ var EmailListComparator = (function () {
       */
 
       value: function contains(email) {
-        _.each(this.groupedEmailPatters.string, function (emailString) {
+        for (var i = this.groupedEmailPatterns.string.length - 1; i >= 0; i--) {
+          var emailString = this.groupedEmailPatterns.string[i];
           if (email === emailString) {
             return true;
           }
-        });
+        }
 
-        _.each(this.groupedEmailPatters.regex, function (regex) {
+        for (var i = this.groupedEmailPatterns.regex.length - 1; i >= 0; i--) {
+          var regex = this.groupedEmailPatterns.regex[i];
           if (regex.test(email)) {
             return true;
           }
-        });
+        }
 
         return false;
       }
