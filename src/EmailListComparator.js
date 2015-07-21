@@ -7,7 +7,7 @@ class EmailListComparator {
   * @constructor
   */
   constructor(emails = []) {
-    this.groupedEmailPatters = _.groupBy(emails, (email) => {
+    this.groupedEmailPatterns = _.groupBy(emails, (email) => {
       if (_.isString(email)) {
         return 'string';
       }
@@ -18,8 +18,8 @@ class EmailListComparator {
       return 'other';
     });
 
-    if (this.groupedEmailPatters.other) {
-      _.each(this.groupedEmailPatters.other, (other) => {
+    if (this.groupedEmailPatterns.other) {
+      _.each(this.groupedEmailPatterns.other, (other) => {
         /* eslint-disable no-console */
         /* Usage failure needs instruction otherwise */
         console.error(
@@ -36,13 +36,13 @@ class EmailListComparator {
   * @returns {Boolean}
   */
   contains(email) {
-    _.each(this.groupedEmailPatters.string, (emailString) => {
+    _.each(this.groupedEmailPatterns.string, (emailString) => {
       if (email === emailString) {
         return true;
       }
     });
 
-    _.each(this.groupedEmailPatters.regex, (regex) => {
+    _.each(this.groupedEmailPatterns.regex, (regex) => {
       if (regex.test(email)) {
         return true;
       }
