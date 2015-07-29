@@ -23,7 +23,10 @@ class Mailer {
   constructor(apiKey, options = {}) {
     this.apiKey = apiKey;
     this.mandrillClient = new Mandrill(apiKey);
-    this.whitelist = options.whitelist && new EmailListComparator(options.whitelist) || null;
+    this.whitelist = options.whitelist &&
+      options.whitelist.length &&
+      new EmailListComparator(options.whitelist) ||
+      null;
     this.blacklist = new EmailListComparator(options.blacklist || []);
     this.hooks = _
       .chain(options.hooks)
